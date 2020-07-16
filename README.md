@@ -10,7 +10,7 @@ The goals of this challenge are to:
 - Add a third map style to allow the user to select from three different maps.
 
 ## Resources
-Data Sources: [logic]((Earthquake_Challenge/static/js/logic.js), [index]((Earthquake_Challenge/index.html), [css](Earthquake_Challenge/static/css/style.css)
+Data Sources: [logic](Earthquake_Challenge/static/js/logic.js), [index](Earthquake_Challenge/index.html), [css](Earthquake_Challenge/static/css/style.css)
 
 Software: JavaScript (w/ Leaflet, D3), HTML, VSCode
 
