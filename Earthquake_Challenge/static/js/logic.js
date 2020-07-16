@@ -1,12 +1,26 @@
-// We create the tile layer that will be the background of our map.
+// We create the streets  tile layer that will be the background of our map.
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
 	accessToken: API_KEY
 });
 
-// We create the dark view tile layer that will be an option for our map.
+// We create the satellite view tile layer that will be an option for our map.
 let satelliteStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+	maxZoom: 18,
+	accessToken: API_KEY
+});
+
+// We create the satellite view tile layer that will be an option for our map.
+let darkStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+	maxZoom: 18,
+	accessToken: API_KEY
+});
+
+// We create the satellite view tile layer that will be an option for our map.
+let lightStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
 	accessToken: API_KEY
@@ -14,7 +28,7 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 
 // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
-	center: [39.5, -98.5],
+	center: [43.7, -79.3],
 	zoom: 3,
 	layers: [streets]
 })
@@ -22,28 +36,46 @@ let map = L.map('mapid', {
 // Create a base layer that holds both maps.
 let baseMaps = {
   "Streets": streets,
-  "Satellite Streets": satelliteStreets
+  "Satellite Streets": satelliteStreets,
+  "Dark View": darkStreets,
+  "Light View": lightStreets
 };
-
-// Accessing the tectonic GeoJSON URL
-let tectonicPlates = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
-
-// Grabbing our GeoJSON data.
-d3.json(tectonicPlates).then(function(data) {
-  console.log(data);
-});
 
 // Create the earthquake layer for our map.
 let earthquakes = new L.layerGroup();
 
+// Create the tectonic layer for our map
+let tectonic = new L.layerGroup();
+
 // We define an object that contains the overlays.
 // This overlay will be visible all the time.
 let overlays = {
-	Earthquakes: earthquakes
+	"Earthquakes": earthquakes,
+	"Tectonic Plates": tectonic
   };
 
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps, overlays).addTo(map);
+
+// Create a style for the lines.
+let myTectonicStyle = {
+		color: "#e60067",
+		weight: 2
+	};
+
+/// Retrieve the tectonic lines GeoJSON data.
+d3.json("https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json").then(function(data) {
+	
+	// Creating a GeoJSON layer with the retrieved data.
+	L.geoJson(data, {
+		style: myTectonicStyle
+  		}).addTo(tectonic);
+		// Then we add the tectonic layer to our map
+		tectonic.addTo(map);  
+
+		// Then we add the tectonic layer to our map
+		earthquakes.addTo(map);
+	});
 
 // This function returns the style data for each of the earthquakes we plot on
 // the map. We pass the magnitude of the earthquake into a function
