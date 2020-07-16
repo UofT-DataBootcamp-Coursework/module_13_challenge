@@ -16,13 +16,13 @@ Software: JavaScript (w/ Leaflet, D3), HTML, VSCode
 
 ## Results
 
-![](Earthquake_Challenge/static/images/final_map.png)
+![](Earthquake_Challenge/static/images/final_map.PNG)
 
-![](Earthquake_Challenge/static/images/detail.png)
+![](Earthquake_Challenge/static/images/detail.PNG)
 
-![](Earthquake_Challenge/static/images/detail1.png)
+![](Earthquake_Challenge/static/images/detail1.PNG)
 
-![](Earthquake_Challenge/static/images/detail2.png)
+![](Earthquake_Challenge/static/images/detail2.PNG)
 
 ## Report Completed By:
 ![](Earthquake_Challenge/static/images/sal.jpg)
